@@ -2,7 +2,7 @@
 
 # 📖 **Efficient File Reading in Java: From Basic to Memory-Mapped IO**
 
-## 🧠 **What is BufferedReader?**
+##  **What is BufferedReader?**
 
 `BufferedReader` is a Java class used to read text from character input streams efficiently. It’s “buffered” because it reads chunks of characters into a buffer, minimizing the number of I/O calls (which are expensive).
 
