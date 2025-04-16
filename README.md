@@ -171,3 +171,12 @@ List<String> lastLines = TailCommand.tail(reader, 10);
 In this project, we’ve implemented an efficient `tail` command that reads the last N lines of a file. We’ve explored `BufferedReader` for efficient file handling and used a `Deque` to keep memory usage low by storing only the last N lines. This approach ensures that even very large files can be processed without excessive memory consumption.
 
 ---
+
+Followup questions to read
+
+https://stackoverflow.com/questions/1605332/java-nio-filechannel-versus-fileoutputstream-performance-usefulness
+
+https://leetcode.com/problems/game-of-life/editorial/
+
+
+
