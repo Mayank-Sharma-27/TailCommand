@@ -46,10 +46,12 @@ public class MappedByteBufferedSolution implements Tail{
                 }
             }
         }
-        if (currentLine.length() > 0 && lines.size() <= n) {
+        if (!currentLine.isEmpty() && lines.size() <= n) {
             lines.add(currentLine.reverse().toString());
         }
         Collections.reverse(lines);
         return lines;
     }
+
+
 }

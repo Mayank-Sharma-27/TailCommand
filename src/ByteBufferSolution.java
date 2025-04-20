@@ -4,6 +4,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ByteBufferSolution implements Tail {
             channel.read(buffer);
             buffer.flip();
 
-            for (int i =bytesToRead -1; i > 0; i--) {
+            for (int i =bytesToRead -1; i >= 0; i--) {
                 char c = (char) buffer.get(i);
                 if (c == '\n') {
                     result.add(line.reverse().toString());
@@ -54,5 +55,44 @@ public class ByteBufferSolution implements Tail {
         raf.close();
         return result;
 
+    }
+
+    @Override
+    @SneakyThrows
+    public void follow(String filePath, int n) {
+        RandomAccessFile raf = new RandomAccessFile(filePath, "rw");
+        FileChannel channel = raf.getChannel();
+        long position = channel.size();
+
+        StringBuilder line = new StringBuilder();
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        Deque<String> lines = new LinkedList<>(readlines("test", n));
+
+        while (true) {
+            long currentSize = channel.size();
+
+            if (currentSize > position) {
+                channel.position(position);
+                int bytesRead = channel.read(buffer);
+                buffer.flip();
+                for (int i =0; i < bytesRead; i++) {
+                    char c = (char) buffer.get();
+                    if (c == '\n') {
+                        if (lines.size() == n) {
+                            lines.pollLast();
+                        }
+                        lines.offerLast(line.toString());
+                        System.out.println(line);
+                        line.setLength(0);
+                    } else {
+                        line.append(c);
+                    }
+                }
+                position = channel.position();
+                buffer.clear();
+            } else {
+                Thread.sleep(500);
+            }
+        }
     }
 }

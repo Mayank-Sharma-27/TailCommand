@@ -137,6 +137,19 @@ try (FileChannel channel = FileChannel.open(Paths.get("file.txt"), StandardOpenO
 > What if I want to build a CLI like `tail`?
 - This approach can be adapted into a high-performance tool like `tail`, `grep`, or even building an inverted index!
 
+## 🧠Why use RandomAccessFile?
+Because BufferedReader and Files.readAllLines() only allow forward traversal — they start from the beginning and read line by line.
+
+But for tail -n, we want to go from the end of the file backwards, and only read the last N lines.
+
+That's where RandomAccessFile shines:
+
+It lets you jump directly to the end of the file (raf.length()).
+
+Then move backwards in chunks and inspect bytes until you find \n characters (line breaks).
+
+You only read what's needed.
+
 ---
 
 ## 🖼️ **Memory-Mapped Tail Command (Diagram)**
